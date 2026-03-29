@@ -12,9 +12,9 @@ public class CorsConfig implements WebMvcConfigurer {
     private String frontUrl;
 
     public void addCorsMappings(CorsRegistry corsRegistry){
-        System.out.println(frontUrl);
+        String[] origins = frontUrl.split(",");
         corsRegistry.addMapping("/api/**")
-                .allowedOrigins(frontUrl)
+                .allowedOrigins(origins)
                 .allowedMethods("GET", "POST", "PATCH", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true)
