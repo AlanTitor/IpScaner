@@ -1,0 +1,51 @@
+services:
+  front:
+    build:
+      context: ./IpScannerFront
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    depends_on:
+      - back
+  back:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/scan
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 1515
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: scan
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1515
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  bot:
+    build:
+      context: ./tgBot
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - back
+    environment:
+      BOT_TOKEN: ${BOT_TOKEN:-7142898761:AAEXwGlfohr2dZL56CxSOrX1pNMX8DIT450}
+    network_mode: bridge
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+
+volumes:
+  postgres_data:
