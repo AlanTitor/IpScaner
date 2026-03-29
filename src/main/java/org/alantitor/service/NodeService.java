@@ -26,4 +26,17 @@ public class NodeService {
         nodeRepository.save(node);
         return node.getId();
     }
+
+    public void changeNodeById(Long id, NodeDto nodeDto){
+        Node node = nodeRepository.findById(id).orElseThrow(() -> new RuntimeException("Node not found with id:" + id));
+        node.setIp(nodeDto.getIp());
+        node.setType(nodeDto.getType());
+        node.setTag(nodeDto.getTag());
+        nodeRepository.save(node);
+    }
+
+    public void deleteNodeById(Long id){
+        Node node = nodeRepository.findById(id).orElseThrow(() -> new RuntimeException("Node not found with id:" + id));
+        nodeRepository.delete(node);
+    }
 }

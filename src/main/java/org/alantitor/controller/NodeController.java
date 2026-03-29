@@ -11,7 +11,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/node")
+@RequestMapping("/api/nodes")
 @AllArgsConstructor
 public class NodeController {
 
@@ -33,4 +33,15 @@ public class NodeController {
         return ResponseEntity.created(uri).build();
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> changeNodeById(@PathVariable(name = "id") Long id, @RequestBody NodeDto nodeDto){
+        nodeService.changeNodeById(id, nodeDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteNodeById(@PathVariable(name = "id") Long id){
+        nodeService.deleteNodeById(id);
+        return ResponseEntity.ok().build();
+    }
 }

@@ -3,7 +3,6 @@ package org.alantitor.service;
 import lombok.AllArgsConstructor;
 import org.alantitor.entity.Node;
 import org.alantitor.repository.NodeRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -15,14 +14,13 @@ import java.util.List;
 public class PingService {
 
     private NodeRepository nodeRepository;
-    //@Value("${ping.timeout}")
-    private final int PING_TIMEOUT = 500;
+    private PingServiceConfig pingServiceConfig;
 
     public void pingIp() throws IOException {
         List<Node> nodes = nodeRepository.getAllNode();
 
         for(Node node : nodes){
-            boolean reachable = InetAddress.getByName(node.getIp()).isReachable(PING_TIMEOUT);
+            boolean reachable = InetAddress.getByName(node.getIp()).isReachable(pingServiceConfig.getTimeout());
 
             if(reachable != node.getIsUp()){
                 node.setIsUp(reachable);

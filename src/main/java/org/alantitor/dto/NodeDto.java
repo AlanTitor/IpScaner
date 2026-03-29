@@ -12,6 +12,8 @@ import org.alantitor.types.NodeType;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NodeDto {
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Long id;
     private String ip;
     private NodeType type;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
