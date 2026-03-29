@@ -10,3 +10,6 @@ spring:
 
 ping:
   timeout: 500
+
+cors:
+  frontUrl: http://127.0.0.1:5500
